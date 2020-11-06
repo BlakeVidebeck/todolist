@@ -23,8 +23,8 @@ function App() {
 	};
 
 	return (
-		<div>
-			<h1>Todo list</h1>
+		<div className='tc'>
+			<h1 className='f1'>Todo list</h1>
 			<AddTodo gettodos={getTodos} />
 			<TodoList todos={todos} gettodos={getTodos} />
 		</div>

@@ -18,14 +18,18 @@ const Todo = ({ todo: { _id, text }, gettodos }) => {
 		setComplete(!complete);
 	};
 	return (
-		<div className='tc bg-light-green dib br3 pa3 ma2 grow bw2 shadow-5'>
-			<p
-				className={complete ? 'completed' : ''}
+		<div className='ph3 pv3 bb b--light-silver'>
+			<li
+				className={`w-80 dib ${complete ? 'completed' : ''}`}
 				onClick={e => handleComplete(e)}
 			>
 				{text}
-			</p>
-			{complete && <button onClick={e => deleteTodo(_id)}>DELETE</button>}
+			</li>
+			{complete && (
+				<button className='dib w-20' onClick={e => deleteTodo(_id)}>
+					X
+				</button>
+			)}
 		</div>
 	);
 };
