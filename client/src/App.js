@@ -1,25 +1,34 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import AddTodo from './components/AddTodo.js';
+import TodoList from './components/TodoList';
+import 'tachyons';
+
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	// state
+	const [todos, setTodos] = useState([]);
+
+	useEffect(() => {
+		getTodos();
+		// eslint-disable-next-line
+	}, []);
+
+	// get todos from database
+	const getTodos = async () => {
+		let res = await axios.get('/todos');
+		setTodos(res.data);
+	};
+
+	return (
+		<div>
+			<h1>Todo list</h1>
+			<AddTodo gettodos={getTodos} />
+			<TodoList todos={todos} gettodos={getTodos} />
+		</div>
+	);
 }
 
 export default App;

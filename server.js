@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const Schema = mongoose.Schema;
 require('dotenv').config();
 
@@ -7,6 +8,7 @@ const app = express();
 
 // body-parser
 app.use(express.json());
+app.use(cors());
 
 // todo model
 const todoSchema = new Schema({
@@ -38,7 +40,7 @@ const connectDB = async () => {
 connectDB();
 
 // get all todos
-app.get('/', async (req, res) => {
+app.get('/todos', async (req, res) => {
 	try {
 		// find all todos in database
 		const todos = await Todo.find();
@@ -50,12 +52,13 @@ app.get('/', async (req, res) => {
 });
 
 // add a todo
-app.post('/', async (req, res) => {
+app.post('/todos', async (req, res) => {
 	try {
 		// create new todo based off of model
 		const newTodo = new Todo({
 			text: req.body.text
 		});
+
 		// save todo to database
 		const todo = await newTodo.save();
 
@@ -67,7 +70,7 @@ app.post('/', async (req, res) => {
 });
 
 // delete todo by id
-app.delete('/:id', async (req, res) => {
+app.delete('/todos/:id', async (req, res) => {
 	try {
 		// find todo by id
 		const todo = await Todo.findById(req.params.id);
@@ -81,6 +84,6 @@ app.delete('/:id', async (req, res) => {
 	}
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
