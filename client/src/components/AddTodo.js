@@ -1,27 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { GlobalContext } from '../context/GlobalState';
 
-const AddTodo = ({ gettodos }) => {
-	const [todo, setAddTodo] = useState('');
-
-	// add todo to database
-	const addTodo = async newTodo => {
-		const config = {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		};
-
-		try {
-			await axios.post('/todos', newTodo, config);
-			// set state and value to be empty
-			setAddTodo('');
-			// get all todos again
-			gettodos();
-		} catch (err) {
-			console.error(err.message);
-		}
-	};
+const AddTodo = () => {
+	const [todo, setTodo] = useState('');
+	const { addTodo } = useContext(GlobalContext);
 
 	// handle form submit
 	const onSubmit = e => {
@@ -32,6 +14,8 @@ const AddTodo = ({ gettodos }) => {
 		};
 
 		addTodo(newTodo);
+		// set state to be empty
+		setTodo('');
 	};
 
 	return (
@@ -40,7 +24,7 @@ const AddTodo = ({ gettodos }) => {
 				<input
 					type='text'
 					placeholder='Add Todo'
-					onChange={e => setAddTodo(e.target.value)}
+					onChange={e => setTodo(e.target.value)}
 					value={todo}
 				/>
 			</form>
